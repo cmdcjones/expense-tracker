@@ -46,7 +46,7 @@ def calc_total():
     print(f"Your monthly income is: ${income}")
     print(f"Your monthly expenses list:")
     display_expenses()
-    print(f"\nYour leftover income is: ${leftover_income})
+    print(f"\nYour leftover income is: ${leftover_income}")
     if leftover_income < 0:
           print("Look for ways to cut out expenses to save more money each month!")
 
@@ -69,7 +69,7 @@ def main():
 6. View your monthly expenses
 7. Exit
 
->  """
+>  """)
     if action == "1":
        add_income()
 
