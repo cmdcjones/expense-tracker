@@ -54,7 +54,7 @@ def load_income():
 
 def save_income():
     print("Saving monthly income...")
-    with open("icnome.csv", "w", newline='') as file:
+    with open("income.csv", "w", newline='') as file:
         writer = csv.writer(file)
         for source, value in income.items():
             writer.writerow([source, value])
