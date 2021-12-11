@@ -1,17 +1,32 @@
 # Program to track expenses using CSV
 # Features:
 # Store/modify budget through user input, store/modify 
-# imports
+import csv
 
+expenses = {} 
 income = {}
-expenses = {}
 
 def load_expenses():
+    expense_list = {}
     print("Loading monthly expenses...")
-    print("Loaded!")
+    with open("expenses.csv", "r") as file:
+        reader = csv.reader(file)
+        try:
+            for expense, value in reader: # reads row by row
+                expense_list[expense] = value
+            print("Loaded!")
+        except ValueError:
+            print("There are no expenses to load.")
+    file.close()
+    return expense_list
 
 def save_expenses():
     print("Saving monthly expenses...")
+    with open("expenses.csv", "w", newline='') as file:
+        writer = csv.writer(file)
+        for expense, value in expenses.items():
+            writer.writerow([expense, value])
+    file.close()
     print("Saved!")
 
 def add_expense():
@@ -20,14 +35,29 @@ def add_expense():
     expenses[source] = value.lstrip("$")
     
 def remove_expense():
-    pass
+    expense = input("Enter the name of the monthly expense:\n> ").title()
+    del expenses[expense]
 
 def load_income():
+    income_sources = {}
     print("Loading monthly income...")
-    print("Loaded!")
+    with open('income.csv', 'r') as file:
+        reader = csv.reader(file)
+        try:
+            for source, value in reader: # reads row by row
+                income_sources[source] = value
+            print("Loaded!")
+        except ValueError:
+            print("There are no expenses to load.")
+    file.close()
+    return income_sources
 
 def save_income():
     print("Saving monthly income...")
+    with open("icnome.csv", "w", newline='') as file:
+        writer = csv.writer(file)
+        for source, value in income.items():
+            writer.writerow([source, value])
     print("Saved!")
     
 def add_income():
@@ -36,30 +66,41 @@ def add_income():
     income[source] = value.lstrip("$")
     
 def remove_income():
-    pass
+    source = input("Enter the name of the monthly expense:\n> ").title()
+    del income[source]
 
 def calc_total():
-    total = 0
+    total_expenses = 0
+    total_income = 0
     for expense in expenses.values():
-        total += float(expense)
-    leftover_income = income - total
-    print(f"Your monthly income is: ${income}")
-    print(f"Your monthly expenses list:")
+        total_expenses += float(expense)
+    for source in income.values():
+        total_income += float(source)
+    leftover_income = total_income - total_expenses
+    display_income()
     display_expenses()
     print(f"\nYour leftover income is: ${leftover_income}")
     if leftover_income < 0:
           print("Look for ways to cut out expenses to save more money each month!")
 
 def display_expenses():
+    print(f"Your monthly expenses list:")
     for expense, value in expenses.items():
         print(f"{expense}: ${value}")
 
-def main():
+def display_income():
+    print(f"Your monthly income list:")
+    for source, value in income.items():
+        print(f"{source}: ${value}")
+
+
+if __name__ == "__main__":
     print("-" * 15 + " Monthly Expense Tracker " + "-" * 15)
-    load_income()
-    load_expenses()
+    expenses = load_expenses()
+    income = load_income()
     while True:
-          action = input("""What would you like to do?
+        action = input("""
+What would you like to do?
 
 1. Add a monthly income source
 2. Remove a monthly income source
@@ -67,11 +108,26 @@ def main():
 4. Remove a monthly expense
 5. View your monthly income
 6. View your monthly expenses
-7. Exit
+7. Calculate your leftover monthly income
+8. Exit
 
 >  """)
-    if action == "1":
-       add_income()
-
-if __name__ == "__main__":
-    main()
+        if action == "1":
+            add_income()
+        if action == "2":
+            remove_income()
+        if action == "3":
+            add_expense()
+        if action == "4":
+            remove_expense()
+        if action == "5":
+            display_income()
+        if action == "6":
+            display_expenses()
+        if action == "7":
+            calc_total()
+        if action == "8":
+            save_expenses()
+            save_income()
+            print("Goodbye!")
+            exit()
