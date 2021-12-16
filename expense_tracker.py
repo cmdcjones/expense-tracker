@@ -61,12 +61,12 @@ def save_income():
     print("Saved!")
     
 def add_income():
-    source = input("Enter the name of the monthly expense:\n> ").title()
-    value = input("Enter the value of the monthly expense:\n> ")
+    source = input("Enter the name of the income source:\n> ").title()
+    value = input("Enter the value of the income source:\n> ")
     income[source] = value.lstrip("$")
     
 def remove_income():
-    source = input("Enter the name of the monthly expense:\n> ").title()
+    source = input("Enter the name of the income source:\n> ").title()
     del income[source]
 
 def calc_total():
