@@ -77,6 +77,7 @@ def calc_total():
     for source in income.values():
         total_income += float(source)
     leftover_income = total_income - total_expenses
+    leftover_income = round(leftover_income, 2)
     display_income()
     display_expenses()
     print(f"\nYour leftover income is: ${leftover_income}")
@@ -102,9 +103,9 @@ if __name__ == "__main__":
         action = input("""
 What would you like to do?
 
-1. Add a monthly income source
+1. Add/update a monthly income source
 2. Remove a monthly income source
-3. Add a monthly expense
+3. Add/update a monthly expense
 4. Remove a monthly expense
 5. View your monthly income
 6. View your monthly expenses
